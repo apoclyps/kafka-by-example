@@ -1,0 +1,9 @@
+# Ignore all files by default. This ensures that only the
+# files we care about are transferred to the docker daemon, which
+# can help reduce docker build time, and produce smaller images.
+*
+
+# White list only the required files
+!scripts
+!Pipfile
+!Pipfile.lock
