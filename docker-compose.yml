@@ -40,6 +40,17 @@ services:
       KAFKA_REST_CONSUMER_METADATA_BROKER_LIST: "kafka:9092"
       KAFKA_REST_PRODUCER_METADATA_BROKER_LIST: "kafka:9092"
 
+  rest-gateway:
+    image: confluentinc/cp-kafka-rest
+    environment:
+      KAFKA_REST_HOST_NAME: "kafka"
+      KAFKA_REST_ZOOKEEPER_CONNECT: "zookeeper:2181"
+    ports:
+      - "8083:8082"
+    links:
+      - zookeeper:zookeeper
+      - kafka:kafka
+
   kafka-rest-ui:
     image: nodefluent/kafka-rest-ui
     ports:
@@ -69,9 +80,20 @@ services:
       APPLICATION_SECRET: letmein
       KM_ARGS: -Djava.net.preferIPv4Stack=true
 
+  task:
+    build: .
+    environment:
+      KAFKA_ADDR: "kafka:9092"
+      KAFKA_TOPIC: "events-v0"
+    links:
+      - kafka
+    depends_on:
+      - kafka
+      - zookeeper
+
   producer:
     build: .
-    command: python scripts/example/producer.py
+    command: python scripts/producer.py
     environment:
       KAFKA_ADDR: "kafka:9092"
       KAFKA_TOPIC: "events-v0"
@@ -83,7 +105,7 @@ services:
 
   consumer:
     build: .
-    command: python scripts/example/consumer.py
+    command: python scripts/consumer.py
     environment:
       KAFKA_ADDR: "kafka:9092"
       KAFKA_TOPIC: "events-v0"

@@ -1,4 +1,5 @@
-### Configure the Kafka manager
+Configuring the Kafka Manager
+=============================
 
 -	cluster name: test
 -	host: zookeeper:2181

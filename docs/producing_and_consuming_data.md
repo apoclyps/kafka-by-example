@@ -1,3 +1,16 @@
+Producing and Consuming Data
+============================
+
+To generate data and view it has been created successfully you can run the producer and consumer via the following commands:
+
+```sh
+docker-compose run consumer
+docker-compose run producer
+```
+
+#### Example of a simple producer
+
+```python
 # std lib
 from datetime import datetime
 import uuid
@@ -32,3 +45,26 @@ with topic.get_producer(
 
     print("waiting for all messages to be written")
     producer._wait_all()
+```
+
+### Example of a simple consumer
+
+```python
+# std lib
+import os
+
+# third party imports
+from pykafka import KafkaClient
+
+KAFKA_ADDR = os.getenv("KAFKA_ADDR")
+KAFKA_TOPIC = os.getenv("KAFKA_TOPIC")
+
+
+client = KafkaClient(hosts=KAFKA_ADDR)
+
+topic = client.topics[KAFKA_TOPIC]
+consumer = topic.get_simple_consumer()
+for message in consumer:
+    if message is not None:
+        print(message.offset, message.value)
+```
