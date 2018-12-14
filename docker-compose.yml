@@ -22,11 +22,14 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "events-v0:1:1"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      JMX_PORT: 9997
+      KAFKA_JMX_OPTS: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=9997
 
   kafka-rest:
     image: nodefluent/kafka-rest
     ports:
       - 8082:8082
+      - 9997:9997
     links:
       - kafka
       - zookeeper
