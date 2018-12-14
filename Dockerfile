@@ -12,4 +12,5 @@ COPY Pipfile Pipfile.lock /usr/src/app/
 RUN pipenv install --deploy --dev --ignore-pipfile --system
 
 # copy the application source into the container
+COPY data/ /usr/src/app/scripts
 COPY . /usr/src/app
