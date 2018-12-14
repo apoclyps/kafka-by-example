@@ -22,6 +22,7 @@ docker-compose up --build kafka kafka-rest kafka-rest-ui
 -	Kafka will be available on `http://localhost:9092`
 -	Kafka REST will be available on `http://localhost:8082`
 -	Kafka UI will be available on `http://localhost:8000`
+-	Kafka Manager will be availableo n `http://localhost:9000`
 
 To generate data and view it has been created successfully you can run the producer and consumer via the following commands:
 
